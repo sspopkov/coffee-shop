@@ -1,6 +1,16 @@
 // ==================== КОРЗИНА ====================
 let cart = JSON.parse(localStorage.getItem('coffeeCart')) || [];
 
+const syncCartFromStorage = () => {
+  try {
+    cart = JSON.parse(localStorage.getItem('coffeeCart')) || [];
+  } catch {
+    cart = [];
+  }
+  updateCartCounter();
+  renderCartSidebar();
+};
+
 const saveCart = () => {
   localStorage.setItem('coffeeCart', JSON.stringify(cart));
   updateCartCounter();
@@ -158,14 +168,10 @@ document.addEventListener('DOMContentLoaded', () => {
   renderCartSidebar();
 });
 
-window.addEventListener('pageshow', () => {
-  try {
-    cart = JSON.parse(localStorage.getItem('coffeeCart')) || [];
-  } catch {
-    cart = [];
-  }
-  updateCartCounter();
-  renderCartSidebar();
+window.addEventListener('pageshow', syncCartFromStorage);
+window.addEventListener('focus', syncCartFromStorage);
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') syncCartFromStorage();
 });
 
 // ==================== БОКОВАЯ КОРЗИНА ====================
