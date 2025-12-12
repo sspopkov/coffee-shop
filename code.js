@@ -58,6 +58,7 @@ const renderCoffee = (items = coffeeData) => {
   grid.querySelectorAll('.add-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
+      openDetail(btn.dataset.id);
     });
   });
 };
@@ -153,6 +154,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Инициализация
   renderCoffee();
+  updateCartCounter();
+  renderCartSidebar();
+});
+
+window.addEventListener('pageshow', () => {
+  try {
+    cart = JSON.parse(localStorage.getItem('coffeeCart')) || [];
+  } catch {
+    cart = [];
+  }
   updateCartCounter();
   renderCartSidebar();
 });
