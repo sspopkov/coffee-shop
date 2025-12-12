@@ -264,6 +264,7 @@ header {
   display: flex;
   align-items: center;
   gap: 0.8rem;
+  flex-wrap: wrap;
   margin-top: 0.5rem;
 }
 .quantity-controls button {
@@ -277,10 +278,16 @@ header {
 }
 .remove-item {
   color: #b85c5c;
-  background: none;
-  border: none;
-  font-size: 1.3rem;
+  background: white;
+  border: 1px solid #e6c4c4;
+  border-radius: 999px;
+  font-size: 1rem;
+  padding: 0.4rem 0.85rem;
+  line-height: 1;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .cart-footer {
