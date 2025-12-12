@@ -17,6 +17,8 @@ function renderCartSidebar() {
   const subtotalEl = document.getElementById('subtotal');
   const totalEl = document.getElementById('totalAmount');
 
+  if (!body || !subtotalEl || !totalEl) return;
+
   if (cart.length === 0) {
     body.innerHTML = '<p class="empty-cart">Корзина пуста</p>';
     subtotalEl.textContent = '0 ₽';
@@ -24,7 +26,7 @@ function renderCartSidebar() {
     return;
   }
 
-  body.innerHTML = cart.map((item, index) => 
+  body.innerHTML = cart.map((item, index) =>
     `<div class="cart-item">
       <img src="${item.img}" alt="${item.name}">
       <div class="cart-item-info">
@@ -35,7 +37,7 @@ function renderCartSidebar() {
           ${item.sugar ? '• +sugar' : ''}
         </div>
         <div class="quantity-controls">
-          <button onclick="changeQuantity(${index}, -1})">−</button>
+          <button onclick="changeQuantity(${index}, -1)">−</button>
           <span>${item.quantity}</span>
           <button onclick="changeQuantity(${index}, +1)">+</button>
           <button class="remove-item" onclick="removeFromCart(${index})">✕</button>
@@ -61,38 +63,36 @@ function removeFromCart(index) {
   saveCart();
 }
 
-document.querySelectorAll('.cart-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.getElementById('cartSidebar').classList.add('active');
-    renderCartSidebar();
+const cartSidebar = document.getElementById('cartSidebar');
+
+if (cartSidebar) {
+  document.querySelectorAll('.cart-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      cartSidebar.classList.add('active');
+      renderCartSidebar();
+    });
   });
-});
 
-document.getElementById('hideCart')?.addEventListener('click', () => {
-  document.getElementById('cartSidebar').classList.remove('active');
-});
-
-function addToCartSimple(id) {
-  const coffee = coffeeData.find(c => c.id === id);
-  const existing = cart.find(item => item.id === id);
-
-  if (existing) existing.quantity += 1;
-  else cart.push({ ...coffee, quantity: 1, size: null, milk: null, sugar: false });
-
-  saveCart();
+  document.getElementById('hideCart')?.addEventListener('click', () => {
+    cartSidebar.classList.remove('active');
+  });
 }
 
 updateCartCounter();
+function openDetail(id) {
+  window.location.href = `detail.html?id=${id}`;
+}
+
 function renderCoffee(items = coffeeData) {
   const grid = document.getElementById('coffeeGrid');
   if (!grid) return;
 
-  grid.innerHTML = items.map(coffee => 
-    `<article class="coffee-card">
+  grid.innerHTML = items.map(coffee =>
+    `<article class="coffee-card" onclick="openDetail(${coffee.id})">
       <img src="${coffee.img}" alt="${coffee.name}">
       <h3>${coffee.name}</h3>
       <p class="price">${coffee.price} ₽</p>
-      <button class="add-btn" onclick="addToCartSimple(${coffee.id}); event.stopPropagation()">В корзину</button>
+      <button class="add-btn" type="button" onclick="event.stopPropagation()">В корзину</button>
     </article>`
   ).join('');
 }
@@ -126,8 +126,9 @@ document.querySelectorAll('[data-category]').forEach(button => {
 document.addEventListener('DOMContentLoaded', () => {
   renderCoffee();
   updateCartCounter();
-  renderCartModal();
+  renderCartSidebar();
   document.querySelector('[data-category="all"]')?.classList.add('active');
+  initDetailPage();
 });
 
 const searchInput = document.getElementById('searchInput');
@@ -169,19 +170,106 @@ document.querySelectorAll('[data-category]').forEach(btn => {
   });
 });
 
-document.querySelectorAll('.cart-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.getElementById('cartModal').classList.add('active');
-    renderCartModal();
-  });
-});
+function initDetailPage() {
+  if (!document.body.classList.contains('detail-page')) return;
 
-document.querySelector('.close-cart')?.addEventListener('click', () => {
-  document.getElementById('cartModal').classList.remove('active');
-});
+  const params = new URLSearchParams(window.location.search);
+  const coffeeId = Number(params.get('id'));
+  const coffee = coffeeData.find(c => c.id === coffeeId) || coffeeData[0];
+  if (!coffee) return;
 
-document.getElementById('cartModal')?.addEventListener('click', e => {
-  if (e.target === e.currentTarget) {
-    e.currentTarget.classList.remove('active');
+  const detailTitle = document.getElementById('coffeeTitle');
+  const detailName = document.getElementById('detailName');
+  const detailImg = document.getElementById('detailImg');
+  const detailDesc = document.getElementById('detailDesc');
+  const quantityEl = document.getElementById('quantity');
+  const addBtn = document.querySelector('.add-to-cart-big');
+  const priceEl = document.getElementById('detailPrice');
+
+  let selectedSize = document.querySelector('.size-btn.active')?.dataset.size || 'tall';
+  let selectedMilk = document.querySelector('.milk-btn.active')?.dataset.milk || 'regular';
+  let sugarSelected = document.getElementById('extraSugar')?.checked || false;
+  let quantity = Number(quantityEl?.textContent) || 1;
+
+  if (detailTitle) {
+    detailTitle.textContent = coffee.name;
   }
-});
+
+  if (detailName) {
+    detailName.textContent = coffee.name;
+  }
+
+  if (detailImg) {
+    detailImg.src = coffee.img;
+    detailImg.alt = coffee.name;
+  }
+
+  if (detailDesc) {
+    detailDesc.textContent = 'Выберите размер, молоко и дополнительные опции для вашего напитка.';
+  }
+
+  function updatePrice() {
+    if (priceEl) {
+      priceEl.textContent = `${coffee.price * quantity} ₽`;
+    }
+  }
+
+  updatePrice();
+
+  document.querySelectorAll('.size-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+      document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+      e.currentTarget.classList.add('active');
+      selectedSize = e.currentTarget.dataset.size;
+    });
+  });
+
+  document.querySelectorAll('.milk-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+      document.querySelectorAll('.milk-btn').forEach(b => b.classList.remove('active'));
+      e.currentTarget.classList.add('active');
+      selectedMilk = e.currentTarget.dataset.milk;
+    });
+  });
+
+  document.getElementById('extraSugar')?.addEventListener('change', e => {
+    sugarSelected = e.target.checked;
+  });
+
+  document.getElementById('inc')?.addEventListener('click', () => {
+    quantity += 1;
+    if (quantityEl) quantityEl.textContent = quantity;
+    updatePrice();
+  });
+
+  document.getElementById('dec')?.addEventListener('click', () => {
+    if (quantity > 1) {
+      quantity -= 1;
+      if (quantityEl) quantityEl.textContent = quantity;
+      updatePrice();
+    }
+  });
+
+  addBtn?.addEventListener('click', () => {
+    const existing = cart.find(item =>
+      item.id === coffee.id &&
+      item.size === selectedSize &&
+      item.milk === selectedMilk &&
+      item.sugar === sugarSelected
+    );
+
+    if (existing) {
+      existing.quantity += quantity;
+    } else {
+      cart.push({
+        ...coffee,
+        quantity,
+        size: selectedSize,
+        milk: selectedMilk,
+        sugar: sugarSelected
+      });
+    }
+
+    saveCart();
+  });
+}
