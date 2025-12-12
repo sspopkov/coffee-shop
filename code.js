@@ -55,10 +55,9 @@ const renderCoffee = (items = coffeeData) => {
     });
   });
 
-  grid.querySelectorAll('.add-btn').forEach(btn => { /////////////////////////////////////////////////////////////////////////
+  grid.querySelectorAll('.add-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
-      addToCartSimple(+btn.dataset.id);
     });
   });
 };
