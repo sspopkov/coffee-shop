@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title id="coffeeTitle">Кофе</title>
+  <title>Кофе – Coffee Heaven</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body class="detail-page">
   <header class="header">
     <div class="container">
-      <a href="index.html" class="back-btn">← Назад</a>
-      <h1 id="detailName">Cinnamon and Cocoa</h1>
+      <a href="index.html" class="back-btn">Назад в меню</a>
+      <h1 id="detailName">Загрузка...</h1>
       <button class="cart-btn" aria-label="Корзина">
-        <span class="cart-icon">Cart</span>
-        <span class="cart-count" id="headerCartCount">0</span>
+        <span class="cart-icon">Корзина</span>
+        <span class="cart-count">0</span>
       </button>
     </div>
   </header>
@@ -24,45 +24,64 @@
       <div class="detail-image">
         <img id="detailImg" src="" alt="">
       </div>
+      <div class="detail-content">
+        <h2 id="detailName2"></h2>
+        <p id="detailDesc" class="desc"></p>
 
-      <div class="detail-options">
-        <p id="detailDesc" class="description"></p>
-
-        <div class="option-group">
-          <h3>Размер</h3>
-          <div class="sizes">
-            <button data-size="short" class="size-btn">Small</button>
-            <button data-size="tall" class="size-btn active">Medium</button>
-            <button data-size="grande" class="size-btn">Large</button>
-            <button data-size="venti" class="size-btn">ExtraLarge</button>
+        <div class="options">
+          <div class="size-group">
+            <h3>Объём</h3>
+            <div class="sizes">
+              <button class="size-btn" data-size="short" data-mult="0.8">Маленький</button>
+              <button class="size-btn active" data-size="tall" data-mult="1">Средний</button>
+              <button class="size-btn" data-size="grande" data-mult="1.3">Большой</button>
+              <button class="size-btn" data-size="venti" data-mult="1.6">Огромный</button>
+            </div>
           </div>
-        </div>
 
-        <div class="option-group">
-          <h3>Молоко</h3>
-          <div class="milks">
-            <button data-milk="regular" class="milk-btn active">Обычное</button>
-            <button data-milk="oat" class="milk-btn">Овсяное</button>
-            <button data-milk="soy" class="milk-btn">Соевое</button>
-            <button data-milk="almond" class="milk-btn">Миндальное</button>
+          <div class="milk-group">
+            <h3>Молоко</h3>
+            <div class="milks">
+              <button class="milk-btn active" data-milk="regular">Обычное</button>
+              <button class="milk-btn" data-milk="oat" data-price="+30">Овсяное +30₽</button>
+              <button class="milk-btn" data-milk="soy" data-price="+30">Соевое +30₽</button>
+              <button class="milk-btn" data-milk="almond" data-price="+50">Миндальное +50₽</button>
+            </div>
           </div>
-        </div>
 
-        <div class="option-group">
-          <h3>Дополнительно</h3>
-          <label><input type="checkbox" id="extraSugar"> + Сахар</label>
-        </div>
+          <label class="sugar-label">
+            <input type="checkbox" id="extraSugar">
+            <span>Дополнительный сахар</span>
+          </label>
 
-        <div class="quantity">
-          <button id="dec">-</button>
-          <span id="quantity">1</span>
-          <button id="inc">+</button>
-        </div>
+          <div class="quantity-big">
+            <button id="dec">−</button>
+            <span id="quantity">1</span>
+            <button id="inc">+</button>
+          </div>
 
-        <button class="add-to-cart-big">Добавить в корзину — <span id="detailPrice">₹99</span></button>
+          <button class="add-to-cart-big">
+            Добавить в заказ — <span id="detailPrice">0 ₽</span>
+          </button>
+        </div>
       </div>
     </div>
   </main>
+
+  <aside class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+      <h3>Ваша корзина</h3>
+      <button class="hide-cart" id="hideCart">×</button>
+    </div>
+    <div class="cart-body" id="cartBody"></div>
+    <div class="cart-footer">
+      <div class="total">
+        <span>Итого:</span>
+        <strong id="totalAmount">0 ₽</strong>
+      </div>
+      <button class="place-order">Оформить заказ</button>
+    </div>
+  </aside>
 
   <script src="data.js"></script>
   <script src="code.js"></script>

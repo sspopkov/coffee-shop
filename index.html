@@ -3,71 +3,80 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Coffee Heaven – Кофейня</title>
+  <title>Coffee Heaven – Лучший кофе в городе</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="header">
+<header class="header">
+  <div class="container header-container">
+    <button class="burger" aria-label="Открыть меню">
+      <span></span><span></span><span></span>
+    </button>
+    <h1 class="logo">Coffee Heaven</h1>
+
+    <div class="search">
+      <input type="text" placeholder="Поиск кофе..." id="searchInput">
+    </div>
+
+    <button class="cart-btn" aria-label="Корзина">
+      <span class="cart-icon">Корзина</span>
+      <span class="cart-count">0</span>
+    </button>
+  </div>
+</header>
+
+<!-- ЕДИНЫЕ КРАСИВЫЕ ФИЛЬТРЫ — и на десктопе, и в мобильном меню -->
+<div class="categories-wrapper">
+  <div class="container">
+    <div class="categories" id="categories">
+      <button class="category-btn active" data-category="all">Все</button>
+      <button class="category-btn" data-category="black">Чёрный</button>
+      <button class="category-btn" data-category="milky">Молочный</button>
+      <button class="category-btn" data-category="basic">Классика</button>
+      <button class="category-btn" data-category="special">Авторский</button>
+    </div>
+  </div>
+</div>
+
+<!-- Мобильное меню (теперь использует те же кнопки!) -->
+<nav class="nav-mobile">
+  <div class="container">
+    <h3>Категории</h3>
+    <div class="categories mobile-categories" id="mobileCategories"></div>
+  </div>
+</nav>
+
+<main class="main">
+  <section class="hero">
+    <h2>Добро пожаловать в Coffee Heaven</h2>
+    <p>Где каждый глоток — это маленькое счастье</p>
+  </section>
+
+  <section class="menu">
     <div class="container">
-      <button class="burger" aria-label="Открыть меню">
-        <span></span><span></span><span></span>
-      </button>
-      <h1 class="logo">Coffee Heaven</h1>
-      
-      <div class="search">
-        <input type="text" placeholder="Поиск кофе..." id="searchInput">
+      <div class="coffee-grid" id="coffeeGrid"></div>
+    </div>
+  </section>
+</main>
+
+  <!-- Боковая корзина -->
+  <aside class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+      <h3>Ваша корзина</h3>
+      <button class="hide-cart" id="hideCart">×</button>
+    </div>
+    <div class="cart-body" id="cartBody">
+      <p class="empty-cart">Корзина пуста</p>
+    </div>
+    <div class="cart-footer">
+      <div class="total">
+        <span>Итого:</span>
+        <strong id="totalAmount">0 ₽</strong>
       </div>
-
-      <button class="cart-btn" aria-label="Корзина">
-        <span class="cart-icon">🛒</span>
-        <span class="cart-count">0</span>
-      </button>
+      <button class="place-order">Оформить заказ</button>
     </div>
-  </header>
-
-  <main class="main">
-    <section class="hero">
-      <h2>Добро пожаловать в Coffee Heaven</h2>
-      <p>Самый вкусный кофе в городе</p>
-    </section>
-
-    <section class="menu">
-      <div class="container">
-        <div class="categories-desktop">
-          <button data-category="all" class="active">Все</button>
-          <button data-category="black">Чёрный кофе</button>
-          <button data-category="milky">Молочные</button>
-          <button data-category="basic">Классика</button>
-          <button data-category="special">Авторские</button>
-        </div>
-
-        <div class="coffee-grid" id="coffeeGrid">
-        </div>
-      </div>
-    </section>
-  </main>
-
-<aside class="cart-sidebar" id="cartSidebar">
-  <div class="cart-header">
-    <h3>Order</h3>
-    <button class="hide-cart" id="hideCart">HIDE →</button>
-  </div>
-  <div class="cart-body" id="cartBody">
-    <p class="empty-cart">Корзина пуста</p>
-  </div>
-  <div class="cart-footer">
-    <div class="subtotal">
-      <span>Subtotal</span>
-      <span id="subtotal">0 ₽</span>
-    </div>
-    <div class="total">
-      <strong>Total</strong>
-      <strong id="totalAmount">0 ₽</strong>
-    </div>
-    <button class="place-order">Оформить заказ</button>
-  </div>
-</aside>
+  </aside>
 
   <script src="data.js"></script>
   <script src="code.js"></script>
