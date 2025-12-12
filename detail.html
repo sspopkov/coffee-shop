@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="coffeeTitle">Кофе</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="detail-page">
+  <header class="header">
+    <div class="container">
+      <a href="index.html" class="back-btn">← Назад</a>
+      <h1 id="detailName">Cinnamon and Cocoa</h1>
+      <button class="cart-btn" aria-label="Корзина">
+        <span class="cart-icon">Cart</span>
+        <span class="cart-count" id="headerCartCount">0</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="container detail-main">
+    <div class="detail-grid">
+      <div class="detail-image">
+        <img id="detailImg" src="" alt="">
+      </div>
+
+      <div class="detail-options">
+        <p id="detailDesc" class="description"></p>
+
+        <div class="option-group">
+          <h3>Размер</h3>
+          <div class="sizes">
+            <button data-size="short" class="size-btn">Small</button>
+            <button data-size="tall" class="size-btn active">Medium</button>
+            <button data-size="grande" class="size-btn">Large</button>
+            <button data-size="venti" class="size-btn">ExtraLarge</button>
+          </div>
+        </div>
+
+        <div class="option-group">
+          <h3>Молоко</h3>
+          <div class="milks">
+            <button data-milk="regular" class="milk-btn active">Обычное</button>
+            <button data-milk="oat" class="milk-btn">Овсяное</button>
+            <button data-milk="soy" class="milk-btn">Соевое</button>
+            <button data-milk="almond" class="milk-btn">Миндальное</button>
+          </div>
+        </div>
+
+        <div class="option-group">
+          <h3>Дополнительно</h3>
+          <label><input type="checkbox" id="extraSugar"> + Сахар</label>
+        </div>
+
+        <div class="quantity">
+          <button id="dec">-</button>
+          <span id="quantity">1</span>
+          <button id="inc">+</button>
+        </div>
+
+        <button class="add-to-cart-big">Добавить в корзину — <span id="detailPrice">₹99</span></button>
+      </div>
+    </div>
+  </main>
+
+  <script src="data.js"></script>
+  <script src="code.js"></script>
+</body>
+</html>
