@@ -1,6 +1,16 @@
 // ==================== КОРЗИНА ====================
 let cart = JSON.parse(localStorage.getItem('coffeeCart')) || [];
 
+const syncCartFromStorage = () => {
+  try {
+    cart = JSON.parse(localStorage.getItem('coffeeCart')) || [];
+  } catch {
+    cart = [];
+  }
+  updateCartCounter();
+  renderCartSidebar();
+};
+
 const saveCart = () => {
   localStorage.setItem('coffeeCart', JSON.stringify(cart));
   updateCartCounter();
@@ -55,10 +65,10 @@ const renderCoffee = (items = coffeeData) => {
     });
   });
 
-  grid.querySelectorAll('.add-btn').forEach(btn => { /////////////////////////////////////////////////////////////////////////
+  grid.querySelectorAll('.add-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
-      addToCartSimple(+btn.dataset.id);
+      openDetail(btn.dataset.id);
     });
   });
 };
@@ -156,6 +166,12 @@ document.addEventListener('DOMContentLoaded', () => {
   renderCoffee();
   updateCartCounter();
   renderCartSidebar();
+});
+
+window.addEventListener('pageshow', syncCartFromStorage);
+window.addEventListener('focus', syncCartFromStorage);
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') syncCartFromStorage();
 });
 
 // ==================== БОКОВАЯ КОРЗИНА ====================
